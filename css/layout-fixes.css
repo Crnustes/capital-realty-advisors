@@ -1,0 +1,112 @@
+/* Spacing correction for full-width dark sections and decorative brand use. */
+.approach,
+.faq {
+  padding: clamp(5rem, 10vw, 9rem) 0;
+}
+
+.intro {
+  position: relative;
+  overflow: hidden;
+}
+
+.intro::after {
+  position: absolute;
+  left: calc(50% - 555px);
+  bottom: clamp(4rem, 8vw, 7rem);
+  width: 390px;
+  height: 310px;
+  content: "";
+  background: url("../img/logos-capital-realty-advisors/simbolo/simbolo-navy-oro.svg") center / contain no-repeat;
+  opacity: .26;
+  pointer-events: none;
+}
+
+.intro > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 760px) {
+  .approach,
+  .faq {
+    padding: 5rem 0;
+  }
+
+  .intro::after {
+    left: -55px;
+    bottom: 3rem;
+    width: 250px;
+    height: 210px;
+    opacity: .12;
+  }
+}
+
+/* Capital section: compact rhythm and a headline column that can breathe. */
+.capital.section {
+  padding: clamp(4.5rem, 7vw, 6.5rem) 0;
+}
+
+.capital .split {
+  grid-template-columns: minmax(310px, .95fr) 1.05fr;
+  gap: clamp(3rem, 7vw, 7rem);
+  align-items: center;
+}
+
+.capital h2 {
+  max-width: 470px;
+}
+
+/* This dark section is not tagged with the shared .section class. */
+.deadline {
+  padding: clamp(4.5rem, 8vw, 7rem) 0;
+}
+
+/* The brand symbol belongs to the hero composition, not its distant edge. */
+.hero-symbol {
+  top: 11%;
+  right: auto;
+  left: clamp(26rem, 39vw, 43rem);
+  width: min(53vw, 760px);
+  max-width: none;
+  opacity: .22;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero-content,
+.hero-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.brand {
+  display: block;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+@media (max-width: 760px) {
+  .capital.section {
+    padding: 4.5rem 0;
+  }
+
+  .capital .split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .deadline {
+    padding: 4.75rem 0;
+  }
+
+  .deadline-grid {
+    gap: 3.25rem;
+  }
+
+  .hero-symbol {
+    top: 9%;
+    left: 25%;
+    width: 390px;
+    opacity: .13;
+  }
+}
