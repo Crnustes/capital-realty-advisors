@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.capitalrealtyadvisorspr.com/sitemap.xml
+Sitemap: https://crnustes.github.io/capital-realty-advisors/sitemap.xml
