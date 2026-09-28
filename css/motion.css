@@ -1,0 +1,339 @@
+/* Motion layer: scroll reveals, line drawing, hover states and smooth scroll.
+   Everything here is progressive: without JS (.js) or with reduced motion the page renders static. */
+:root {
+  --ease-out: cubic-bezier(.2, .65, .25, 1);
+  interpolate-size: allow-keywords;
+}
+
+/* Lenis smooth scroll (its stylesheet minus the iframe rule, which would block the Brevo popup). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+/* Header: soft shadow once the page scrolls, gold reading-progress line. */
+.site-header {
+  transition: box-shadow .4s ease, background-color .4s ease;
+}
+
+.site-header.is-scrolled {
+  background: rgba(247, 244, 236, .94);
+  box-shadow: 0 14px 34px -26px rgba(17, 40, 58, .55);
+  backdrop-filter: blur(10px);
+}
+
+.scroll-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-pale));
+  transform: scaleX(var(--progress, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Hero entrance. */
+.hero-symbol {
+  height: auto;
+}
+
+.js .hero h1,
+.js .hero-copy,
+.js .hero-actions {
+  animation: rise 1.1s var(--ease-out) both;
+}
+
+.js .hero-copy {
+  animation-delay: .18s;
+}
+
+.js .hero-actions {
+  animation-delay: .34s;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 34px, 0);
+  }
+}
+
+/* Brand zigzag drawing itself (paths use pathLength="1"). */
+.js .draw [pathLength] {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.js .hero-symbol.draw [pathLength] {
+  animation: draw 2.2s var(--ease-out) .35s forwards;
+}
+
+.js .hero-symbol.draw [pathLength] + [pathLength] {
+  animation-delay: .7s;
+}
+
+.js .is-visible .draw [pathLength],
+.js .reveal-done .draw [pathLength],
+.js .is-visible.draw [pathLength],
+.js .reveal-done.draw [pathLength] {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1.8s var(--ease-out) .25s;
+}
+
+.js .is-visible .draw [pathLength] + [pathLength],
+.js .is-visible.draw [pathLength] + [pathLength] {
+  transition-delay: .6s;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Scroll reveals: single blocks and staggered groups. */
+.js [data-reveal]:not(.reveal-done),
+.js [data-reveal-group] > :not(.reveal-done) {
+  opacity: 0;
+  transform: translate3d(0, 30px, 0);
+  transition:
+    opacity .9s var(--ease-out) var(--reveal-delay, 0s),
+    transform .9s var(--ease-out) var(--reveal-delay, 0s);
+}
+
+.js [data-reveal].is-visible:not(.reveal-done),
+.js [data-reveal-group] > .is-visible:not(.reveal-done) {
+  opacity: 1;
+  transform: none;
+}
+
+/* Capital section: sticky headline with an abstract gains chart filling the column. */
+.capital-chart {
+  display: block;
+  width: min(100%, 440px);
+  height: auto;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  overflow: visible;
+}
+
+.chart-grid {
+  stroke: rgba(17, 40, 58, .14);
+  stroke-width: .5;
+}
+
+.chart-base {
+  stroke: var(--navy);
+  stroke-width: 2.5;
+}
+
+.chart-line {
+  stroke: #C08B3E;
+  stroke-width: 3.5;
+  stroke-linejoin: miter;
+}
+
+.chart-dot {
+  fill: #C08B3E;
+}
+
+.chart-pulse {
+  fill: none;
+  stroke: #C08B3E;
+  stroke-width: 1;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: pulse 2.8s ease-out infinite;
+}
+
+.js .chart-area {
+  opacity: 0;
+  transition: opacity 1.4s ease 1.2s;
+}
+
+.js .chart-dot,
+.js .chart-pulse {
+  opacity: 0;
+  transition: opacity .5s ease 2s;
+}
+
+.js .is-visible .chart-area,
+.js .reveal-done .chart-area,
+.js .is-visible .chart-dot,
+.js .reveal-done .chart-dot {
+  opacity: 1;
+}
+
+.js .is-visible .chart-pulse,
+.js .reveal-done .chart-pulse {
+  opacity: .8;
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(1);
+    stroke-opacity: .9;
+  }
+
+  to {
+    transform: scale(3.2);
+    stroke-opacity: 0;
+  }
+}
+
+@media (min-width: 761px) {
+  .capital-aside {
+    position: sticky;
+    top: 130px;
+  }
+}
+
+@media (max-width: 760px) {
+  .capital-chart {
+    display: none;
+  }
+}
+
+/* Client qualification: balance the short list against the tall headline. */
+.fit-grid {
+  align-items: center;
+}
+
+/* Leadership monogram is now an inline SVG so it can draw in. */
+.monogram svg {
+  width: 78%;
+  height: auto;
+}
+
+/* Hover states: a gold hairline sweeps along rows, arrows nudge forward. */
+.myth-list article,
+.fit li {
+  position: relative;
+}
+
+.myth-list article::after,
+.fit li::after,
+.point-list li::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  content: "";
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform .7s var(--ease-out);
+}
+
+.myth-list article:hover::after,
+.fit li:hover::after,
+.point-list li:hover::after {
+  transform: scaleX(1);
+}
+
+.myth-list h3,
+.service-grid h3 {
+  transition: color .35s ease, transform .5s var(--ease-out);
+}
+
+.myth-list article:hover h3 {
+  color: #8a6a2f;
+}
+
+.service-grid article:hover h3 {
+  color: var(--gold-pale);
+  transform: translateX(6px);
+}
+
+.point-list li::before {
+  transition: width .5s var(--ease-out);
+}
+
+.point-list li:hover::before {
+  width: 24px;
+}
+
+.button {
+  transition: transform .35s var(--ease-out), background-color .3s ease, box-shadow .35s ease;
+}
+
+.button:hover {
+  box-shadow: 0 16px 30px -18px rgba(17, 40, 58, .6);
+}
+
+.navy:hover {
+  background: #0b1d2b;
+}
+
+.button span,
+.text-link span,
+.nav-cta span {
+  display: inline-block;
+  transition: transform .4s var(--ease-out);
+}
+
+.button:hover span,
+.nav-cta:hover span {
+  transform: translateX(5px);
+}
+
+.nav a {
+  transition: color .3s ease;
+}
+
+/* FAQ: animated open/close where ::details-content is supported, instant elsewhere. */
+summary {
+  transition: color .3s ease;
+}
+
+summary:hover {
+  color: var(--gold-pale);
+}
+
+summary span {
+  transition: transform .4s var(--ease-out);
+}
+
+details::details-content {
+  block-size: 0;
+  overflow: hidden;
+  transition: block-size .5s var(--ease-out), content-visibility .5s allow-discrete;
+}
+
+details[open]::details-content {
+  block-size: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .js [data-reveal]:not(.reveal-done),
+  .js [data-reveal-group] > :not(.reveal-done) {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js .draw [pathLength] {
+    stroke-dashoffset: 0;
+  }
+
+  .js .chart-area,
+  .js .chart-dot {
+    opacity: 1;
+  }
+
+  .chart-pulse {
+    display: none;
+  }
+}
