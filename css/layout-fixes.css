@@ -110,3 +110,119 @@
     opacity: .13;
   }
 }
+
+/* Approved copy layout: section CTAs, bullet lists and longer headings. */
+.myth-list span {
+  white-space: nowrap;
+}
+
+.capital .split {
+  align-items: start;
+}
+
+.myths-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+  margin-top: 45px;
+}
+
+.myths-cta p {
+  max-width: 600px;
+  margin: 0;
+  color: #52616b;
+}
+
+.point-list {
+  margin: 26px 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.point-list li {
+  position: relative;
+  padding: 20px 0 20px 30px;
+  border-bottom: 1px solid var(--line);
+  color: #40515d;
+  font-size: 14px;
+}
+
+.point-list li::before {
+  position: absolute;
+  top: 34px;
+  left: 0;
+  width: 16px;
+  height: 1px;
+  content: "";
+  background: var(--gold);
+}
+
+.point-list strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--navy);
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.approach-title p {
+  max-width: 460px;
+}
+
+.approach-title p strong {
+  color: var(--gold-pale);
+  font-weight: 600;
+}
+
+.leadership h2,
+.fit h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.leadership .button,
+.fit-grid > div > .button {
+  margin-top: 14px;
+}
+
+.fit ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.booking-panel {
+  align-items: center;
+}
+
+.booking-panel img {
+  width: 150px;
+}
+
+.footer-wrap {
+  grid-template-columns: 1fr 2fr 1fr;
+}
+
+@media (max-width: 760px) {
+  .myths-cta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .myth-list article {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .leadership h2,
+  .fit h2 {
+    font-size: clamp(1.9rem, 8vw, 2.5rem);
+  }
+
+  .footer-wrap {
+    grid-template-columns: 1fr;
+  }
+}

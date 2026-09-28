@@ -12,6 +12,12 @@ document.querySelectorAll('.nav a').forEach(link => link.addEventListener('click
   toggle?.setAttribute('aria-expanded', 'false');
 }));
 document.querySelector('#year').textContent = new Date().getFullYear();
+// Brevo booking popup; falls back to the plain link if the Brevo script fails to load.
+document.querySelectorAll('.booking-button').forEach(button => button.addEventListener('click', event => {
+  if (!window.BrevoBookingPage) return;
+  event.preventDefault();
+  BrevoBookingPage.initStaticButton({ url: button.href });
+}));
 document.querySelector('[data-form]')?.addEventListener('submit', event => {
   event.preventDefault();
   const status = event.currentTarget.querySelector('.form-status');
