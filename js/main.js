@@ -13,7 +13,8 @@ document.querySelectorAll('.nav a').forEach(link => link.addEventListener('click
   nav.classList.remove('is-open');
   toggle?.setAttribute('aria-expanded', 'false');
 }));
-document.querySelector('#year').textContent = new Date().getFullYear();
+const year = document.querySelector('#year');
+if (year) year.textContent = new Date().getFullYear();
 
 // Smooth wheel scrolling on desktop; touch devices keep native scrolling.
 const lenis = !reduceMotion && window.Lenis ? new Lenis({ autoRaf: true, lerp: 0.085, wheelMultiplier: 0.95 }) : null;
